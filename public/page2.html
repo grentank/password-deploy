@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Подарок на Хэллоуин</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #000;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+
+      #videoContainer {
+        display: none;
+        text-align: center;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        background-color: #444;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #666;
+      }
+
+      h1 {
+        font-size: 90px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="giftButton">Открыть подарок</button>
+
+    <div id="videoContainer">
+      <video id="giftVideo" width="640" controls></video>
+      <h1 id="message">Ответ на загадку: 3</h1>
+    </div>
+
+    <script>
+      document.getElementById('giftButton').addEventListener('click', () => {
+        const message = document.getElementById('message');
+        // Показ и запуск видео
+        const videoContainer = document.getElementById('videoContainer');
+        const video = document.getElementById('giftVideo');
+
+        video.src = 'video1.mp4';
+        videoContainer.style.display = 'block';
+        video.play();
+        setTimeout(() => (message.textContent = 'Ответ на загадку: 2'), 1000);
+        setTimeout(() => (message.textContent = 'Ответ на загадку: 1'), 2000);
+        setTimeout(() => (message.textContent = 'Ответ на загадку: 0'), 3000);
+        setTimeout(() => (message.textContent = 'Ответ на загадку: Племя'), 4000);
+      });
+    </script>
+  </body>
+</html>

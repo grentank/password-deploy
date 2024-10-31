@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secret Page</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: black;
+        color: red;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        color: red;
+        text-shadow: 2px 2px 4px white;
+        margin-bottom: 20px;
+      }
+
+      input[type='text'] {
+        padding: 10px;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px red;
+        background-color: black;
+        color: red;
+        text-align: center;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        margin-top: 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: red;
+        color: black;
+        text-shadow: 1px 1px 2px white;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: darkred;
+      }
+
+      .message {
+        margin-top: 20px;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Введите секретное слово</h1>
+      <input type="text" id="secretInput" placeholder="Ваш секрет..." />
+      <button id="checkButton">Проверить</button>
+      <p class="message" id="message"></p>
+      <audio id="secretAudio" src="/secret.m4a" autoplay></audio>
+    </div>
+
+    <script>
+      console.log('Нажми на кнопку, включи звук и слушай');
+      document.getElementById('checkButton').addEventListener('click', async function () {
+        document.getElementById('secretAudio').play();
+        const input = document.getElementById('secretInput').value;
+        const message = document.getElementById('message');
+
+        const msgBuffer = new TextEncoder().encode(input);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
+        if (
+          hashHex === '473d4b840c666b1f3985a1c74523eab967daf5f896b28b839577e9d68b9db4b5'
+        ) {
+          message.textContent = 'Секретное слово верное! 3';
+          message.style.color = 'green';
+          setTimeout(() => (message.textContent = 'Секретное слово верное! 2'), 1000);
+          setTimeout(() => (message.textContent = 'Секретное слово верное! 1'), 2000);
+          setTimeout(() => (message.textContent = 'Секретное слово верное! 0'), 3000);
+          setTimeout(() => (window.location = '/cool-sound'), 4000);
+        } else {
+          message.textContent = 'Неверное секретное слово.';
+          message.style.color = 'red';
+        }
+      });
+    </script>
+  </body>
+</html>
